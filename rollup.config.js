@@ -1,7 +1,7 @@
 import babel from 'rollup-plugin-babel';
 import esbuild from 'rollup-plugin-esbuild';
 import bundleSize from 'rollup-plugin-bundle-size';
-import typescript from '@rollup/plugin-typescript';
+import typescript from 'rollup-plugin-ts';
 import pkg from './package.json';
 
 const input = './src/index.ts';
@@ -15,7 +15,7 @@ export default [
       { file: pkg.module, format: 'es' },
       { file: pkg.browser, format: 'umd', name: moduleName },
     ],
-    plugins: [typescript(), babel()],
+    plugins: [typescript()],
   },
   {
     input,

@@ -258,7 +258,7 @@ export const ContainerMixin = defineComponent({
     }
 
     if (this.hub) {
-      this.hub.addContainer(this as ContainerRef);
+      this.hub.addContainer((this as unknown) as ContainerRef);
     }
   },
 
@@ -271,7 +271,7 @@ export const ContainerMixin = defineComponent({
     }
 
     if (this.hub) {
-      this.hub.removeContainer(this as ContainerRef);
+      this.hub.removeContainer((this as unknown) as ContainerRef);
     }
 
     if (this.dragendTimer) clearTimeout(this.dragendTimer);
@@ -420,7 +420,7 @@ export const ContainerMixin = defineComponent({
         }
 
         if (this.hub) {
-          this.hub.sortStart(this as ContainerRef);
+          this.hub.sortStart((this as unknown) as ContainerRef);
           this.hub.helper = this.helper;
           this.hub.ghost = this.sortableGhost;
         }
@@ -456,7 +456,7 @@ export const ContainerMixin = defineComponent({
         this.hub.handleSortMove(e, payload);
       }
 
-      if (!this.hub || this.hub.isDest(this as ContainerRef)) {
+      if (!this.hub || this.hub.isDest((this as unknown) as ContainerRef)) {
         this.animateNodes();
         this.autoscroll();
       }
@@ -489,7 +489,7 @@ export const ContainerMixin = defineComponent({
         clearInterval(this.autoscrollInterval);
         this.autoscrollInterval = null;
       }
-      if (this.hub!.isSource(this as ContainerRef)) {
+      if (this.hub!.isSource((this as unknown) as ContainerRef)) {
         // Trick to animate all nodes up
         this.translate = {
           x: 10000,
@@ -577,7 +577,7 @@ export const ContainerMixin = defineComponent({
     },
 
     handleDragIn(e: PointEvent, sortableGhost: SortableNode, helper: SortableNode) {
-      if (this.hub!.isSource(this as ContainerRef)) {
+      if (this.hub!.isSource((this as unknown) as ContainerRef)) {
         return;
       }
 
@@ -660,7 +660,7 @@ export const ContainerMixin = defineComponent({
         resetTransform(nodes);
 
         // Update state
-        if (this.hub && !this.hub.isDest(this as ContainerRef)) {
+        if (this.hub && !this.hub.isDest((this as unknown) as ContainerRef)) {
           this.canceling ? this.hub.cancel() : this.hub.handleSortEnd();
         } else if (this.canceling) {
           this.$emit('sort-cancel', { event: e });
@@ -700,7 +700,7 @@ export const ContainerMixin = defineComponent({
         left: window.pageXOffset - this.initialWindowScroll.left,
       };
 
-      if (this.hub && !this.hub.isDest(this as ContainerRef) && !this.canceling) {
+      if (this.hub && !this.hub.isDest((this as unknown) as ContainerRef) && !this.canceling) {
         const dest = this.hub.getDest();
         if (!dest) return;
         const destIndex = dest.newIndex;
