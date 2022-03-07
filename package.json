@@ -50,6 +50,7 @@
     "version": "npm run changelog && git add CHANGELOG.md",
     "build": "npm run clean && npm run rollup",
     "prepublishOnly": "npm run build",
+    "prepack": "yarn build",
     "rollup": "cross-env BABEL_ENV=rollup rollup -c",
     "clean": "rimraf dist/",
     "test": "eslint src/** --ext .ts && npm run test:cy",
