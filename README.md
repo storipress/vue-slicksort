@@ -1,5 +1,7 @@
 # Vue Slicksort 🖖
 
+**This is a fork of [vue-slicksort](https://github.com/Jexordexan/vue-slicksort), customized for Storipress**
+
 ![Slicksort logo](/logo/logomark.png)
 
 > A set of component mixins to turn any list into an animated, touch-friendly, sortable list.
