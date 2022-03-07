@@ -55,6 +55,7 @@ interface ComponentProps {
   contentWindow: Window;
   shouldCancelStart: (e: PointEvent) => boolean;
   getHelperDimensions: (ref: ItemRef) => { width: number; height: number };
+  setHelperStyle: (el: HTMLElement | null, data?: { targetX: number; targetY: number; duration: number }) => void;
 }
 
 interface ComponentData extends ComponentProps {
@@ -212,6 +213,16 @@ export const ContainerMixin = defineComponent({
         width: node.offsetWidth,
         height: node.offsetHeight,
       }),
+    },
+    setHelperStyle: {
+      type: Function as PropType<ComponentProps['setHelperStyle']>,
+      default: (el: HTMLElement | null, data?: { targetX: number; targetY: number; duration: number }) => {
+        if (data) {
+          setTransform(el, `translate3d(${data.targetX}px, ${data.targetY}px, 0)`, `${data.duration}ms`);
+        } else {
+          setTransform(el);
+        }
+      },
     },
   },
 
@@ -740,14 +751,14 @@ export const ContainerMixin = defineComponent({
 
       const duration = this.draggedSettlingDuration !== null ? this.draggedSettlingDuration : this.transitionDuration;
 
-      setTransform(this.helper, `translate3d(${targetX}px,${targetY}px, 0)`, `${duration}ms`);
+      this.setHelperStyle(this.helper, { targetX, targetY, duration });
 
       // Register an event handler to clean up styles when the transition
       // finishes.
       const cleanup = (event: TransitionEvent) => {
         if (!event || event.propertyName === 'transform') {
           clearTimeout(cleanupTimer);
-          setTransform(this.helper);
+          this.setHelperStyle(this.helper);
           cb();
         }
       };
@@ -794,7 +805,11 @@ export const ContainerMixin = defineComponent({
       }
 
       if (this.helper) {
-        this.helper.style['transform'] = `translate3d(${translate.x}px,${translate.y}px, 0)`;
+        this.setHelperStyle(this.helper, {
+          targetX: translate.x,
+          targetY: translate.y,
+          duration: 0,
+        });
       }
     },
 
