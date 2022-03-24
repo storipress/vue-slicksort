@@ -226,7 +226,7 @@ export const ContainerMixin = defineComponent({
     },
   },
 
-  emits: ['sort-start', 'sort-move', 'sort-end', 'sort-cancel', 'sort-insert', 'sort-remove', 'update:list'],
+  emits: ['sort-start', 'sort-move', 'sort-end', 'sort-cancel', 'sort-insert', 'sort-remove', 'drag-in', 'drag-out', 'drag-end', 'update:list'],
 
   data() {
     let useHub = false;
@@ -513,6 +513,8 @@ export const ContainerMixin = defineComponent({
         });
         this.dragendTimer = timeout(this.handleDragEnd, this.transitionDuration || 0);
       }
+
+      this.$emit('drag-out');
     },
 
     handleDragEnd() {
@@ -526,6 +528,8 @@ export const ContainerMixin = defineComponent({
         this.sortableGhost.remove();
         this.sortableGhost = null;
       }
+
+      this.$emit('drag-end');
 
       if (this.dragendTimer) {
         clearTimeout(this.dragendTimer);
@@ -626,6 +630,7 @@ export const ContainerMixin = defineComponent({
 
       // Turn on dragging
       this.sorting = true;
+      this.$emit('drag-in');
     },
 
     handleSortEnd(e: PointEvent | KeyboardEvent) {
