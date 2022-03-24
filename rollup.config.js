@@ -13,7 +13,12 @@ export default [
     output: [
       { file: pkg.main, format: 'cjs' },
       { file: pkg.module, format: 'es' },
-      { file: pkg.browser, format: 'umd', name: moduleName },
+      {
+        file: pkg.browser,
+        format: 'umd',
+        name: moduleName,
+        globals: { vue: 'Vue' },
+      },
     ],
     external: ['vue'],
     plugins: [typescript()],
