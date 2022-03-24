@@ -15,6 +15,7 @@ export default [
       { file: pkg.module, format: 'es' },
       { file: pkg.browser, format: 'umd', name: moduleName },
     ],
+    external: ['vue'],
     plugins: [typescript()],
   },
   {
@@ -24,7 +25,9 @@ export default [
       name: moduleName,
       format: 'umd',
       sourcemap: true,
+      globals: { vue: 'Vue' },
     },
+    external: ['vue'],
     plugins: [
       esbuild({
         minify: true,
